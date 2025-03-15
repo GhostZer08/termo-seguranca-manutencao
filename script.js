@@ -589,6 +589,19 @@ function generatePDF() {
     // Garantir que a página esteja visível
     page1.style.display = 'block';
     
+    // Pré-carregar todas as imagens para evitar problemas de tainted canvas
+    const images = page1.querySelectorAll('img');
+    const imagePromises = Array.from(images).map(img => {
+        return new Promise((resolve, reject) => {
+            if (img.complete) {
+                resolve();
+            } else {
+                img.onload = resolve;
+                img.onerror = reject;
+            }
+        });
+    });
+    
     // Usar setTimeout para dar tempo ao navegador para renderizar os elementos
     setTimeout(() => {
         try {
@@ -597,50 +610,72 @@ function generatePDF() {
                 throw new Error('Biblioteca jsPDF não carregada corretamente');
             }
             
-            // Inicializar o PDF
-            const { jsPDF } = window.jspdf;
-            const pdf = new jsPDF('p', 'mm', 'a4');
-            
-            // Capturar a página
-            html2canvas(page1, {
-                scale: 2,
-                useCORS: true,
-                allowTaint: true,
-                backgroundColor: 'white'
-            }).then(function(canvas) {
-                // Adicionar a página ao PDF
-                const imgData = canvas.toDataURL('image/jpeg', 1.0);
-                pdf.addImage(imgData, 'JPEG', 0, 0, 210, 297);
-                
-                // Gerar o PDF
-                window.pdfData = pdf.output('datauristring');
-                
-                // Exibir o PDF no preview
-                pdfPreview.innerHTML = `<iframe src="${window.pdfData}" width="100%" height="500px"></iframe>`;
-                
-                // Adicionar botão para download com o nome personalizado
-                const downloadButton = document.createElement('button');
-                downloadButton.className = 'btn-primary';
-                downloadButton.style.marginTop = '10px';
-                downloadButton.textContent = 'Baixar PDF';
-                downloadButton.onclick = function() {
-                    // Criar um link temporário para download
-                    const link = document.createElement('a');
-                    link.href = window.pdfData;
-                    link.download = `${fileName}.pdf`;
-                    link.click();
-                };
-                pdfPreview.appendChild(downloadButton);
-                
-                // Esconder o template novamente
-                termTemplate.style.display = 'none';
-                
-                console.log('PDF gerado com sucesso!');
-            }).catch(function(error) {
-                console.error('Erro ao processar página:', error);
-                alert('Erro ao gerar o PDF: ' + error.message);
-                termTemplate.style.display = 'none';
-            });
+            // Aguardar o carregamento de todas as imagens antes de prosseguir
+            Promise.all(imagePromises)
+                .then(() => {
+                    // Inicializar o PDF
+                    const { jsPDF } = window.jspdf;
+                    const pdf = new jsPDF('p', 'mm', 'a4');
+                    
+                    // Capturar a página com configurações aprimoradas
+                    return html2canvas(page1, {
+                        scale: 2,
+                        useCORS: true,
+                        allowTaint: true,
+                        backgroundColor: 'white',
+                        imageTimeout: 15000,
+                        logging: true,
+                        onclone: function(clonedDoc) {
+                            // Garantir que as imagens no clone tenham crossorigin definido
+                            const clonedImages = clonedDoc.querySelectorAll('img');
+                            clonedImages.forEach(img => {
+                                img.setAttribute('crossorigin', 'anonymous');
+                            });
+                        }
+                    }).then(function(canvas) {
+                        // Adicionar a página ao PDF
+                        try {
+                            const imgData = canvas.toDataURL('image/jpeg', 1.0);
+                            pdf.addImage(imgData, 'JPEG', 0, 0, 210, 297);
+                            
+                            // Gerar o PDF
+                            window.pdfData = pdf.output('datauristring');
+                            
+                            // Exibir o PDF no preview
+                            pdfPreview.innerHTML = `<iframe src="${window.pdfData}" width="100%" height="500px"></iframe>`;
+                            
+                            // Adicionar botão para download com o nome personalizado
+                            const downloadButton = document.createElement('button');
+                            downloadButton.className = 'btn-primary';
+                            downloadButton.style.marginTop = '10px';
+                            downloadButton.textContent = 'Baixar PDF';
+                            downloadButton.onclick = function() {
+                                // Criar um link temporário para download
+                                const link = document.createElement('a');
+                                link.href = window.pdfData;
+                                link.download = `${fileName}.pdf`;
+                                link.click();
+                            };
+                            pdfPreview.appendChild(downloadButton);
+                            
+                            // Esconder o template novamente
+                            termTemplate.style.display = 'none';
+                            
+                            console.log('PDF gerado com sucesso!');
+                        } catch (canvasError) {
+                            console.error('Erro ao processar canvas:', canvasError);
+                            alert('Erro ao processar o canvas: ' + canvasError.message);
+                            termTemplate.style.display = 'none';
+                            pdfPreview.innerHTML = `<div class="loading-message" style="color: red;">Erro ao processar o canvas: ${canvasError.message}</div>`;
+                        }
+                    });
+                })
+                .catch(function(error) {
+                    console.error('Erro ao processar página:', error);
+                    alert('Erro ao gerar o PDF: ' + error.message);
+                    termTemplate.style.display = 'none';
+                    pdfPreview.innerHTML = `<div class="loading-message" style="color: red;">Erro ao gerar o PDF: ${error.message}</div>`;
+                });
         } catch (error) {
             console.error('Erro ao inicializar o PDF:', error);
             alert('Erro ao inicializar o PDF: ' + error.message);

@@ -22,8 +22,8 @@ header {
     text-align: center;
     margin-bottom: 30px;
     padding: 20px 0;
-    border-bottom: 2px solid #1e88e5;
-    background: linear-gradient(to right, #1e88e5, #5e35b1);
+    border-bottom: 2px solid #123768;
+    background: linear-gradient(to right, #123768, #0a1f3d);
     color: white;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -87,13 +87,13 @@ header h2 {
     transform: translateX(-50%);
     width: 0;
     height: 3px;
-    background-color: #1e88e5;
+    background-color: #123768;
     transition: width 0.3s ease;
 }
 
 .tab-btn:hover {
     background-color: #e3f2fd;
-    color: #1e88e5;
+    color: #123768;
 }
 
 .tab-btn:hover:before {
@@ -101,8 +101,8 @@ header h2 {
 }
 
 .tab-btn.active {
-    color: #1e88e5;
-    border-bottom: 3px solid #1e88e5;
+    color: #123768;
+    border-bottom: 3px solid #123768;
     font-weight: bold;
     background-color: #e3f2fd;
 }
@@ -138,7 +138,7 @@ header h2 {
 
 .form-section h3 {
     margin-bottom: 15px;
-    color: #1e88e5;
+    color: #123768;
     padding-bottom: 10px;
     border-bottom: 1px solid #e3f2fd;
 }
@@ -164,8 +164,8 @@ input, select, textarea {
 }
 
 input:focus, select:focus, textarea:focus {
-    border-color: #1e88e5;
-    box-shadow: 0 0 0 3px rgba(30, 136, 229, 0.25);
+    border-color: #123768;
+    box-shadow: 0 0 0 3px rgba(18, 55, 104, 0.25);
     outline: none;
 }
 
@@ -258,21 +258,31 @@ button:active {
 }
 
 #generatePdfBtn {
-    background-color: #2196f3;
-    background-image: linear-gradient(to right, #2196f3, #1976d2);
+    background-color: #123768;
+    background-image: linear-gradient(to right, #123768, #0a1f3d);
 }
 
 #generatePdfBtn:hover {
-    background-image: linear-gradient(to right, #1976d2, #0d47a1);
+    background-image: linear-gradient(to right, #0a1f3d, #051529);
 }
 
 #saveTermBtn {
-    background-color: #1e88e5;
-    background-image: linear-gradient(to right, #1e88e5, #1565c0);
+    background-color: #123768;
+    background-image: linear-gradient(to right, #123768, #0a1f3d);
 }
 
 #saveTermBtn:hover {
-    background-image: linear-gradient(to right, #1565c0, #0d47a1);
+    background-image: linear-gradient(to right, #0a1f3d, #051529);
+}
+
+/* Estilos dos Botões de Formulário */
+button[type="submit"], button[type="reset"] {
+    background-color: #123768;
+    background-image: linear-gradient(to right, #123768, #0a1f3d);
+}
+
+button[type="submit"]:hover, button[type="reset"]:hover {
+    background-image: linear-gradient(to right, #0a1f3d, #051529);
 }
 
 /* Estilos da Busca */
@@ -300,12 +310,12 @@ button:active {
 }
 
 .search-form button {
-    background-color: #1e88e5;
-    background-image: linear-gradient(to right, #1e88e5, #1565c0);
+    background-color: #123768;
+    background-image: linear-gradient(to right, #123768, #0a1f3d);
 }
 
 .search-form button:hover {
-    background-image: linear-gradient(to right, #1565c0, #0d47a1);
+    background-image: linear-gradient(to right, #0a1f3d, #051529);
 }
 
 #searchResults {
@@ -322,14 +332,14 @@ button:active {
 }
 
 .search-result-item:hover {
-    border-color: #1e88e5;
+    border-color: #123768;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transform: translateY(-3px);
 }
 
 .search-result-item h4 {
     margin-bottom: 10px;
-    color: #1e88e5;
+    color: #123768;
 }
 
 .search-result-actions {
@@ -339,12 +349,12 @@ button:active {
 }
 
 .search-result-actions button {
-    background-color: #1e88e5;
-    background-image: linear-gradient(to right, #1e88e5, #1565c0);
+    background-color: #123768;
+    background-image: linear-gradient(to right, #123768, #0a1f3d);
 }
 
 .search-result-actions button:hover {
-    background-image: linear-gradient(to right, #1565c0, #0d47a1);
+    background-image: linear-gradient(to right, #0a1f3d, #051529);
 }
 
 /* Estilos do Template do Termo */
@@ -367,7 +377,7 @@ button:active {
     text-align: center;
     margin-bottom: 20px;
     padding-bottom: 10px;
-    border-bottom: 2px solid #1e88e5;
+    border-bottom: 2px solid #123768;
 }
 
 .term-logo {
@@ -384,7 +394,7 @@ button:active {
 .term-header h1 {
     font-size: 18px;
     margin-bottom: 10px;
-    color: #1e88e5;
+    color: #123768;
 }
 
 .company-info {
@@ -408,7 +418,7 @@ button:active {
 .term-section h2 {
     font-size: 14px;
     margin-bottom: 10px;
-    color: #1e88e5;
+    color: #123768;
 }
 
 .term-signatures {
@@ -425,7 +435,7 @@ button:active {
 
 .signature-line {
     height: 70px;
-    border-bottom: 1px solid #1e88e5;
+    border-bottom: 1px solid #123768;
     margin-bottom: 10px;
     display: flex;
     align-items: flex-end;
@@ -442,7 +452,7 @@ button:active {
 .signature-name {
     font-weight: bold;
     margin-bottom: 5px;
-    color: #1e88e5;
+    color: #123768;
 }
 
 .signature-info {
@@ -472,8 +482,8 @@ button:active {
 }
 
 .accessory-select:focus {
-    border-color: #1e88e5;
-    box-shadow: 0 0 0 3px rgba(30, 136, 229, 0.25);
+    border-color: #123768;
+    box-shadow: 0 0 0 3px rgba(18, 55, 104, 0.25);
 }
 
 .other-accessory {
@@ -485,8 +495,8 @@ button:active {
 }
 
 .other-accessory:focus {
-    border-color: #1e88e5;
-    box-shadow: 0 0 0 3px rgba(30, 136, 229, 0.25);
+    border-color: #123768;
+    box-shadow: 0 0 0 3px rgba(18, 55, 104, 0.25);
 }
 
 .remove-accessory {
@@ -552,8 +562,8 @@ button:active {
 }
 
 .service-select:focus {
-    border-color: #1e88e5;
-    box-shadow: 0 0 0 3px rgba(30, 136, 229, 0.25);
+    border-color: #123768;
+    box-shadow: 0 0 0 3px rgba(18, 55, 104, 0.25);
 }
 
 .other-service {
@@ -566,8 +576,8 @@ button:active {
 }
 
 .other-service:focus {
-    border-color: #1e88e5;
-    box-shadow: 0 0 0 3px rgba(30, 136, 229, 0.25);
+    border-color: #123768;
+    box-shadow: 0 0 0 3px rgba(18, 55, 104, 0.25);
 }
 
 .service-value {
@@ -580,8 +590,8 @@ button:active {
 }
 
 .service-value:focus {
-    border-color: #1e88e5;
-    box-shadow: 0 0 0 3px rgba(30, 136, 229, 0.25);
+    border-color: #123768;
+    box-shadow: 0 0 0 3px rgba(18, 55, 104, 0.25);
 }
 
 .remove-service {
@@ -622,7 +632,7 @@ button:active {
 .total-value-display span {
     margin-right: 10px;
     font-weight: bold;
-    color: #1e88e5;
+    color: #123768;
 }
 
 #totalValue {
@@ -632,7 +642,7 @@ button:active {
     font-size: 18px;
     width: 120px;
     text-align: right;
-    color: #1e88e5;
+    color: #123768;
 }
 
 /* Estilos para a tabela de serviços no PDF */
@@ -653,7 +663,7 @@ button:active {
 .services-table th {
     background-color: #e3f2fd;
     font-weight: bold;
-    color: #1e88e5;
+    color: #123768;
 }
 
 .services-table tr:nth-child(even) {
@@ -666,7 +676,7 @@ button:active {
 
 .services-table .total-row td {
     font-weight: bold;
-    color: #1e88e5;
+    color: #123768;
 }
 
 /* Estilos do Modal */
@@ -709,7 +719,7 @@ button:active {
 }
 
 .close:hover {
-    color: #1e88e5;
+    color: #123768;
     transform: rotate(90deg);
 }
 
@@ -720,12 +730,12 @@ button:active {
 }
 
 .pdf-actions button {
-    background-color: #1e88e5;
-    background-image: linear-gradient(to right, #1e88e5, #1565c0);
+    background-color: #123768;
+    background-image: linear-gradient(to right, #123768, #0a1f3d);
 }
 
 .pdf-actions button:hover {
-    background-image: linear-gradient(to right, #1565c0, #0d47a1);
+    background-image: linear-gradient(to right, #0a1f3d, #051529);
 }
 
 #pdfPreview {
