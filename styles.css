@@ -1,0 +1,543 @@
+/* Estilos Gerais */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #f5f5f5;
+    color: #333;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 20px 0;
+    border-bottom: 2px solid #3498db;
+}
+
+header h1 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+header h2 {
+    color: #3498db;
+    font-weight: normal;
+}
+
+/* Estilos das Abas */
+.tabs {
+    display: flex;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ddd;
+}
+
+.tab-btn {
+    padding: 10px 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    color: #666;
+    transition: all 0.3s ease;
+}
+
+.tab-btn:hover {
+    background-color: #f0f0f0;
+}
+
+.tab-btn.active {
+    color: #3498db;
+    border-bottom: 3px solid #3498db;
+    font-weight: bold;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Estilos do Formulário */
+.form-section {
+    background-color: white;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.form-section h3 {
+    margin-bottom: 15px;
+    color: #2c3e50;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+textarea {
+    resize: vertical;
+}
+
+/* Estilos para o select múltiplo */
+select[multiple] {
+    height: 150px;
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.form-hint {
+    font-size: 12px;
+    color: #666;
+    margin-top: 4px;
+    font-style: italic;
+}
+
+/* Estilos da Assinatura */
+.signature-container {
+    margin-top: 10px;
+}
+
+#signatureCanvas {
+    border: 1px solid #ddd;
+    background-color: white;
+    border-radius: 4px;
+    cursor: crosshair;
+    width: 100%;
+    max-width: 500px;
+    height: 150px;
+}
+
+#clearSignatureBtn {
+    margin-top: 10px;
+    padding: 5px 10px;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* Estilos dos Botões de Ação */
+#actionButtons {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+#generatePdfBtn {
+    background-color: #27ae60;
+}
+
+#generatePdfBtn:hover {
+    background-color: #219955;
+}
+
+#saveTermBtn {
+    background-color: #3498db;
+}
+
+#saveTermBtn:hover {
+    background-color: #2980b9;
+}
+
+/* Estilos da Busca */
+.search-container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.search-form {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.search-form input {
+    flex: 1;
+}
+
+#searchResults {
+    margin-top: 20px;
+}
+
+.search-result-item {
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    background-color: #f9f9f9;
+}
+
+.search-result-item h4 {
+    margin-bottom: 10px;
+    color: #2c3e50;
+}
+
+.search-result-actions {
+    margin-top: 10px;
+    display: flex;
+    gap: 10px;
+}
+
+/* Estilos do Template do Termo */
+#termTemplate {
+    font-family: Arial, sans-serif;
+    color: #333;
+    line-height: 1.5;
+}
+
+.term-page {
+    width: 210mm;
+    min-height: 297mm;
+    padding: 20mm;
+    margin: 0 auto;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.term-header {
+    text-align: center;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #3498db;
+}
+
+.term-header h1 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #2c3e50;
+}
+
+.company-info {
+    font-size: 14px;
+    color: #555;
+}
+
+.term-content {
+    font-size: 12px;
+}
+
+.term-date {
+    text-align: right;
+    margin-bottom: 20px;
+}
+
+.term-section {
+    margin-bottom: 15px;
+}
+
+.term-section h2 {
+    font-size: 14px;
+    margin-bottom: 10px;
+    color: #2c3e50;
+}
+
+.term-signatures {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+    padding-top: 20px;
+}
+
+.signature-block {
+    width: 45%;
+    text-align: center;
+}
+
+.signature-line {
+    height: 70px;
+    border-bottom: 1px solid #333;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+.signature-line img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    object-position: center bottom;
+}
+
+.signature-name {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.signature-info {
+    font-size: 12px;
+    margin-bottom: 5px;
+}
+
+.signature-date {
+    font-size: 12px;
+    font-style: italic;
+}
+
+/* Estilos para acessórios dinâmicos */
+.accessory-item {
+    display: flex;
+    margin-bottom: 10px;
+    align-items: center;
+}
+
+.accessory-select {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-right: 10px;
+}
+
+.other-accessory {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.remove-accessory {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.remove-accessory:hover {
+    background-color: #ff3333;
+}
+
+.btn-secondary {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 4px 0;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.btn-secondary:hover {
+    background-color: #45a049;
+}
+
+/* Estilos para serviços dinâmicos */
+.service-item {
+    display: flex;
+    margin-bottom: 10px;
+    align-items: center;
+}
+
+.service-select {
+    flex: 2;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-right: 10px;
+}
+
+.other-service {
+    flex: 2;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-right: 10px;
+}
+
+.service-value {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    text-align: right;
+}
+
+.remove-service {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.remove-service:hover {
+    background-color: #ff3333;
+}
+
+.total-value-container {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.total-value-display {
+    display: flex;
+    align-items: center;
+    background-color: #f9f9f9;
+    padding: 5px 10px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+}
+
+.total-value-display span {
+    margin-right: 5px;
+    font-weight: bold;
+}
+
+#totalValue {
+    border: none;
+    background: transparent;
+    font-weight: bold;
+    font-size: 16px;
+    width: 100px;
+    text-align: right;
+}
+
+/* Estilos para a tabela de serviços no PDF */
+.services-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.services-table th, .services-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.services-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+.services-table .total-row {
+    background-color: #f9f9f9;
+}
+
+.services-table .total-row td {
+    font-weight: bold;
+}
+
+/* Estilos do Modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    overflow: auto;
+}
+
+.modal-content {
+    background-color: white;
+    margin: 5% auto;
+    padding: 20px;
+    border-radius: 5px;
+    width: 80%;
+    max-width: 900px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover {
+    color: #000;
+}
+
+.pdf-actions {
+    margin: 20px 0;
+    display: flex;
+    gap: 10px;
+}
+
+#pdfPreview {
+    max-height: 70vh;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+    
+    .term-signatures {
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .signature-block {
+        width: 100%;
+    }
+    
+    .form-buttons {
+        flex-direction: column;
+    }
+    
+    .search-form {
+        flex-direction: column;
+    }
+    
+    .modal-content {
+        width: 95%;
+        margin: 10% auto;
+    }
+}

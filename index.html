@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Termo de Segurança - Manutenção de Computadores</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Bibliotecas para geração de PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script>
+        // Verificar se as bibliotecas foram carregadas
+        window.addEventListener('load', function() {
+            if (typeof html2canvas === 'undefined') {
+                console.error('html2canvas não foi carregado corretamente');
+            } else {
+                console.log('html2canvas carregado com sucesso');
+            }
+            
+            if (typeof window.jspdf === 'undefined') {
+                console.error('jsPDF não foi carregado corretamente');
+            } else {
+                console.log('jsPDF carregado com sucesso');
+            }
+        });
+    </script>
+    <!-- Adicionar CSS para mensagem de carregamento -->
+    <style>
+        .loading-message {
+            padding: 20px;
+            text-align: center;
+            font-weight: bold;
+            color: #3498db;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        
+        /* Estilos para impressão do termo */
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #termTemplate, #termTemplate * {
+                visibility: visible;
+            }
+            #termTemplate {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+            }
+            .term-page {
+                page-break-after: always;
+                margin: 0;
+                padding: 20mm;
+            }
+        }
+        
+        /* Estilos para a tabela de serviços no PDF */
+        .services-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .services-table th, .services-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        
+        .services-table th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        
+        .services-table .total-row {
+            background-color: #f9f9f9;
+        }
+        
+        .services-table .total-row td {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Sistema de Termo de Segurança</h1>
+            <h2>Manutenção de Computadores</h2>
+        </header>
+
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="register">Novo Termo</button>
+            <button class="tab-btn" data-tab="search">Consultar Termos</button>
+        </div>
+
+        <div id="registerTab" class="tab-content">
+            <form id="securityTermForm">
+                <div class="form-section">
+                    <h3>Dados do Cliente</h3>
+                    <div class="form-group">
+                        <label for="clientName">Nome Completo:</label>
+                        <input type="text" id="clientName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="clientCpf">CPF:</label>
+                        <input type="text" id="clientCpf" required maxlength="14" placeholder="000.000.000-00">
+                    </div>
+                    <div class="form-group">
+                        <label for="clientPhone">Telefone:</label>
+                        <input type="text" id="clientPhone" required maxlength="15" placeholder="(00) 00000-0000">
+                    </div>
+                    <div class="form-group">
+                        <label for="clientEmail">E-mail:</label>
+                        <input type="email" id="clientEmail">
+                    </div>
+                    <div class="form-group">
+                        <label for="clientAddress">Endereço:</label>
+                        <input type="text" id="clientAddress" required>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3>Dados do Equipamento</h3>
+                    <div class="form-group">
+                        <label for="equipmentType">Tipo de Equipamento:</label>
+                        <select id="equipmentType" required>
+                            <option value="">Selecione...</option>
+                            <option value="Notebook">Notebook</option>
+                            <option value="Desktop">Desktop</option>
+                            <option value="Tablet">Tablet</option>
+                            <option value="Smartphone">Smartphone</option>
+                            <option value="Impressora">Impressora</option>
+                            <option value="Outro">Outro</option>
+                        </select>
+                    </div>
+                    <div class="form-group" id="otherEquipmentContainer" style="display: none;">
+                        <label for="otherEquipment">Especifique:</label>
+                        <input type="text" id="otherEquipment">
+                    </div>
+                    <div class="form-group">
+                        <label for="brand">Marca:</label>
+                        <select id="brand" required>
+                            <option value="">Selecione...</option>
+                            <option value="Apple">Apple</option>
+                            <option value="Samsung">Samsung</option>
+                            <option value="Dell">Dell</option>
+                            <option value="HP">HP</option>
+                            <option value="Lenovo">Lenovo</option>
+                            <option value="Asus">Asus</option>
+                            <option value="Acer">Acer</option>
+                            <option value="LG">LG</option>
+                            <option value="Motorola">Motorola</option>
+                            <option value="Xiaomi">Xiaomi</option>
+                            <option value="Epson">Epson</option>
+                            <option value="Canon">Canon</option>
+                            <option value="Brother">Brother</option>
+                            <option value="Outra">Outra</option>
+                        </select>
+                    </div>
+                    <div class="form-group" id="otherBrandContainer" style="display: none;">
+                        <label for="otherBrand">Especifique a marca:</label>
+                        <input type="text" id="otherBrand">
+                    </div>
+                    <div class="form-group">
+                        <label for="serialNumber">Número de Série:</label>
+                        <input type="text" id="serialNumber">
+                    </div>
+                    <div class="form-group">
+                        <label for="accessories">Acessórios Entregues:</label>
+                        <div id="accessoriesContainer">
+                            <div class="accessory-item">
+                                <select class="accessory-select">
+                                    <option value="">Selecione um acessório...</option>
+                                    <option value="Carregador">Carregador</option>
+                                    <option value="Mouse">Mouse</option>
+                                    <option value="Teclado">Teclado</option>
+                                    <option value="Cabo USB">Cabo USB</option>
+                                    <option value="Cabo HDMI">Cabo HDMI</option>
+                                    <option value="Cabo de Rede">Cabo de Rede</option>
+                                    <option value="Capa Protetora">Capa Protetora</option>
+                                    <option value="Película">Película</option>
+                                    <option value="Fone de Ouvido">Fone de Ouvido</option>
+                                    <option value="Bateria">Bateria</option>
+                                    <option value="Fonte de Alimentação">Fonte de Alimentação</option>
+                                    <option value="Cartão de Memória">Cartão de Memória</option>
+                                    <option value="Pen Drive">Pen Drive</option>
+                                    <option value="HD Externo">HD Externo</option>
+                                    <option value="Outro">Outro...</option>
+                                </select>
+                                <input type="text" class="other-accessory" style="display: none;" placeholder="Especifique o acessório">
+                            </div>
+                        </div>
+                        <button type="button" id="addAccessoryBtn" class="btn-secondary">+ Adicionar outro acessório</button>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3>Dados do Serviço</h3>
+                    <div class="form-group">
+                        <label for="problemType">Descrição do Problema:</label>
+                        <select id="problemType" class="problem-select">
+                            <option value="">Selecione um problema...</option>
+                            <option value="Não Liga">Não Liga</option>
+                            <option value="Lento">Lento</option>
+                            <option value="Travando">Travando</option>
+                            <option value="Tela Azul">Tela Azul</option>
+                            <option value="Vírus">Vírus</option>
+                            <option value="Problemas de Hardware">Problemas de Hardware</option>
+                            <option value="Problemas de Software">Problemas de Software</option>
+                            <option value="Atualizações">Atualizações</option>
+                            <option value="Outro">Outro...</option>
+                        </select>
+                        <textarea id="problemDescription" rows="4" style="display: none;" placeholder="Descreva o problema em detalhes..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="observations">Observações Adicionais:</label>
+                        <textarea id="observations" rows="4" placeholder="Observações adicionais sobre o serviço..."></textarea>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3>Orçamento</h3>
+                    <div id="servicesContainer">
+                        <div class="service-item">
+                            <select class="service-select">
+                                <option value="">Selecione um serviço...</option>
+                                <option value="Formatação">Formatação</option>
+                                <option value="Troca de Sistema Operacional">Troca de Sistema Operacional</option>
+                                <option value="Limpeza">Limpeza</option>
+                                <option value="Troca de Peças">Troca de Peças</option>
+                                <option value="Backup de Dados">Backup de Dados</option>
+                                <option value="Instalação de Programas">Instalação de Programas</option>
+                                <option value="Remoção de Vírus">Remoção de Vírus</option>
+                                <option value="Reparo de Hardware">Reparo de Hardware</option>
+                                <option value="Outro">Outro...</option>
+                            </select>
+                            <input type="text" class="other-service" style="display: none;" placeholder="Especifique o serviço">
+                            <input type="number" class="service-value" placeholder="Valor (R$)" min="0" step="0.01">
+                        </div>
+                    </div>
+                    <button type="button" id="addServiceBtn" class="btn-secondary">+ Adicionar outro serviço</button>
+                    
+                    <div class="form-group total-value-container">
+                        <label for="totalValue">Valor Total:</label>
+                        <div class="total-value-display">
+                            <span>R$</span>
+                            <input type="text" id="totalValue" readonly value="0,00">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3>Assinatura Digital</h3>
+                    <div class="signature-container">
+                        <canvas id="signatureCanvas" width="500" height="150"></canvas>
+                        <button type="button" id="clearSignatureBtn">Limpar Assinatura</button>
+                    </div>
+                </div>
+
+                <div class="form-buttons">
+                    <button type="submit">Confirmar Dados</button>
+                    <button type="reset">Limpar Formulário</button>
+                </div>
+            </form>
+            
+            <div id="actionButtons" style="display: none;">
+                <button id="generatePdfBtn">Gerar PDF</button>
+                <button id="saveTermBtn">Salvar Termo</button>
+            </div>
+        </div>
+
+        <div id="searchTab" class="tab-content">
+            <div class="search-container">
+                <h3>Consultar Termos por CPF</h3>
+                <div class="search-form">
+                    <input type="text" id="searchCpf" placeholder="Digite o CPF do cliente" maxlength="14">
+                    <button id="searchBtn">Buscar</button>
+                </div>
+                <div id="searchResults">
+                    <!-- Resultados da busca serão exibidos aqui -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Template do Termo de Segurança (será usado para gerar o PDF) -->
+    <div id="termTemplate" style="display: none;">
+        <div class="term-page" id="page1">
+            <div class="term-header">
+                <h1>TERMO DE SEGURANÇA E ENTREGA DE EQUIPAMENTOS</h1>
+                <div class="company-info">
+                    <p><strong>I.A Manutenção e Tecnologia</strong></p>
+                    <p>Especialistas em soluções tecnológicas e manutenção de equipamentos</p>
+                </div>
+            </div>
+            <div class="term-content">
+                <p class="term-date">Data: <span id="currentDate"></span></p>
+                
+                <div class="term-section">
+                    <h2>1. OBJETO</h2>
+                    <p>O presente termo tem por objeto estabelecer as condições de entrega, manutenção e devolução do equipamento descrito neste documento, entregue pelo CLIENTE à EMPRESA para fins de manutenção, reparo ou análise técnica.</p>
+                </div>
+                
+                <div class="term-section">
+                    <h2>2. OBRIGAÇÕES DAS PARTES</h2>
+                    <p><strong>2.1. Da Empresa:</strong></p>
+                    <p>a) Receber o equipamento e realizar a análise técnica e/ou manutenção conforme solicitado pelo cliente;</p>
+                    <p>b) Zelar pela integridade física do equipamento enquanto estiver sob sua guarda;</p>
+                    <p>c) Informar ao cliente sobre quaisquer problemas adicionais identificados durante a análise;</p>
+                    <p>d) Fornecer orçamento prévio para aprovação antes de realizar qualquer serviço;</p>
+                    <p>e) Garantir a confidencialidade das informações contidas no equipamento.</p>
+                    
+                    <p><strong>2.2. Do Cliente:</strong></p>
+                    <p>a) Fornecer informações precisas sobre o problema apresentado pelo equipamento;</p>
+                    <p>b) Realizar backup de seus dados antes da entrega do equipamento, isentando a empresa de responsabilidade por perda de dados;</p>
+                    <p>c) Aprovar formalmente o orçamento antes da execução dos serviços;</p>
+                    <p>d) Retirar o equipamento no prazo máximo de 30 dias após a comunicação de conclusão do serviço.</p>
+                </div>
+                
+                <div class="term-section">
+                    <h2>3. DEVOLUÇÃO DE EQUIPAMENTOS</h2>
+                    <p>3.1. O cliente será comunicado sobre a conclusão do serviço e terá o prazo de 30 (trinta) dias para retirar o equipamento.</p>
+                    <p>3.2. Após o prazo de 90 (noventa) dias sem a retirada do equipamento, e esgotadas as tentativas de contato, o equipamento poderá ser considerado abandonado, podendo a empresa dar a destinação que julgar adequada, sem direito a qualquer tipo de indenização.</p>
+                </div>
+                
+                <div class="term-section">
+                    <h2>4. PROTEÇÃO DE DADOS</h2>
+                    <p>4.1. A empresa compromete-se a não acessar, copiar ou utilizar quaisquer dados pessoais ou arquivos do cliente sem autorização expressa.</p>
+                    <p>4.2. O cliente declara estar ciente de que, para a realização de determinados serviços, pode ser necessário o acesso ao sistema operacional e arquivos.</p>
+                </div>
+
+                <div class="term-section">
+                    <h2>5. EQUIPAMENTO</h2>
+                    <div class="equipment-details">
+                        <p><strong>Cliente:</strong> <span id="termClientName"></span></p>
+                        <p><strong>CPF:</strong> <span id="termClientCpf"></span></p>
+                        <p><strong>Telefone:</strong> <span id="termClientPhone"></span></p>
+                        <p><strong>E-mail:</strong> <span id="termClientEmail"></span></p>
+                        <p><strong>Endereço:</strong> <span id="termClientAddress"></span></p>
+                        <br>
+                        <p><strong>Tipo de Equipamento:</strong> <span id="termEquipmentType"></span></p>
+                        <p><strong>Marca:</strong> <span id="termBrand"></span></p>
+                        <p><strong>Número de Série:</strong> <span id="termSerialNumber"></span></p>
+                        <p><strong>Acessórios Entregues:</strong> <span id="termAccessories"></span></p>
+                        <br>
+                        <p><strong>Descrição do Problema:</strong> <span id="termProblemDescription"></span></p>
+                        <p><strong>Observações:</strong> <span id="termObservations"></span></p>
+                        <br>
+                        <h3>ORÇAMENTO</h3>
+                        <div id="termServices"></div>
+                    </div>
+                </div>
+                
+                <div class="term-signatures">
+                    <div class="signature-block">
+                        <div class="signature-line">
+                            <img id="clientSignatureImg" src="" alt="Assinatura do Cliente">
+                        </div>
+                        <p class="signature-name"><span id="termClientName"></span></p>
+                        <p class="signature-info">CPF: <span id="termClientCpf"></span></p>
+                        <p class="signature-date">Data: <span id="signatureDateTime"></span></p>
+                    </div>
+                    
+                    <div class="signature-block">
+                        <div class="signature-line">
+                            <img id="companySignatureImg" src="" alt="Assinatura da Empresa">
+                        </div>
+                        <p class="signature-name">I.A Manutenção e Tecnologia</p>
+                    </div>
+                </div>
+                
+                <div class="term-footer">
+                    <p>Data e hora da assinatura: <span id="signatureDateTime"></span></p>
+                    <p>I.A Manutenção e Tecnologia - Especialistas em soluções tecnológicas</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Canvas para gerar a assinatura da empresa (oculto) -->
+    <canvas id="companySignatureCanvas" width="180" height="60" style="display: none;"></canvas>
+
+    <!-- Modal para exibir o PDF -->
+    <div id="pdfModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Visualização do Termo</h2>
+                <button id="closePdfModalBtn" class="close-btn">&times;</button>
+            </div>
+            <div id="pdfPreview" class="modal-body">
+                <!-- O PDF será exibido aqui -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Script principal -->
+    <script src="script.js"></script>
+</body>
+</html>
