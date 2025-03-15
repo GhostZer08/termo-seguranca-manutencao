@@ -29,6 +29,22 @@ header {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
+.logo-container {
+    margin-bottom: 15px;
+}
+
+.logo-image {
+    max-width: 180px;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+}
+
+.logo-image:hover {
+    transform: scale(1.05);
+}
+
 header h1 {
     color: white;
     margin-bottom: 10px;
@@ -352,6 +368,17 @@ button:active {
     margin-bottom: 20px;
     padding-bottom: 10px;
     border-bottom: 2px solid #1e88e5;
+}
+
+.term-logo {
+    margin-bottom: 15px;
+}
+
+.term-logo-image {
+    max-width: 120px;
+    height: auto;
+    margin: 0 auto;
+    display: block;
 }
 
 .term-header h1 {
